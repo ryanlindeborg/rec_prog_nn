@@ -3,6 +3,7 @@ import tensorflow as tf
 from Prog_net.progressivenet import ProgressiveNeuralNetwork
 from Data_Preparation.Data_Iterator import data_iterator
 
+print("Running example file")
 # Make some fake observations.
 inputSize = 128
 fakeInputs1 = np.float64(np.random.rand(4000, inputSize))
@@ -18,8 +19,8 @@ y = it.iter_data_epoch(fakeInputs1, fakeTargets2, 50)
 
 # create your progressive neural network with one extra column
 progNet = ProgressiveNeuralNetwork(inputSize=inputSize, numLayers=4)
-initCol = progNet.addColumn(topology1, activations, [], logdir='/data/elli/random/firstcol', regression=False)
-extCol = progNet.addColumn(topology2, activations, [initCol], logdir='data/elli/random/secondcol', regression=False)
+initCol = progNet.addColumn(topology1, activations, [], logdir='~/projects/ml/continual-learning/prog-neur-network/rec_prog_nn/logs/firstcol', regression=False)
+extCol = progNet.addColumn(topology2, activations, [initCol], logdir='~/projects/ml/continual-learning/prog-neur-network/rec_prog_nn/logs/secondcol', regression=False)
 
 initCol.create_optimizer()
 
@@ -43,4 +44,4 @@ for epoch in range(50):
     values = (epoch + 1, 100. * trainAccuracy)
     print(msg % values)
 
-progNet.writeToFile('/data/elli/random/savednet', epoch)
+progNet.writeToFile('~/projects/ml/continual-learning/prog-neur-network/rec_prog_nn/data', epoch)
