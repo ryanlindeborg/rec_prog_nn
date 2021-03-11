@@ -13,11 +13,11 @@ class data_iterator(object):
         """
         return
 
-    def iter_data_epoch(self, data, target, n_batches, **kwargs):
+    def iter_data_epoch(self, data, target, samples_per_batch, **kwargs):
         '''
         :param data: list input data
         :param target: list target data
-        :param n_batches: Int given the number of samples per batch
+        :param samples_per_batch: Int given the number of samples per batch
         :param kwargs:
         :return: An iterator which always yields a full epoch of data in batches
 
@@ -28,13 +28,14 @@ class data_iterator(object):
         shuffle = kwargs.get('shuffle', True)
         data_size = data.shape[0]
         while True:
+            # Array from 0 to data_size
             indices_new_order = np.arange(data_size)
             if shuffle:
                 np.random.shuffle(indices_new_order)
             # run for 1 epoch
             new_epoch = []
-            for i in range(0, data_size, n_batches):
-                batch_indices = indices_new_order[i:i+n_batches]
+            for i in range(0, data_size, samples_per_batch):
+                batch_indices = indices_new_order[i:i + samples_per_batch]
                 new_epoch.append((data[batch_indices], target[batch_indices]))
             yield new_epoch
 

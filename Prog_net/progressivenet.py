@@ -449,7 +449,9 @@ class ProgressiveNeuralNetwork:
             regression=False
         assert self.numLayers == len(activations)
         assert self.numLayers == len(topology)
+        # Add input neurons to topology
         topology = [self.inputSize] + topology
+        # Extensible columns = previously existing columns
         colIndex = len(self.extensibleColumns)
         e = Column(
             topology, activations, self.session, previousColumns, colIndex, logdir=logdir, regression=regression
